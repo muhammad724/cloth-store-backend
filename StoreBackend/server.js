@@ -9,7 +9,7 @@ const app = express();
 const port = 3000;
 
 app.use(cors());
-app.use(express.json()) // parse the request body
+app.use(express.json()) 
 app.use("/users", userRoutes)
 app.use("/product", productRoutes);
 

@@ -5,13 +5,13 @@ import { Dialog, DialogPanel } from '@headlessui/react'
  import Product from './Product'
  import BgImage2 from '../components/BgImage2' 
  import useCartStore from '../context/CartStore'
-import { href, Link } from 'react-router'
+import { Link } from 'react-router'
 import DummySection from '../Section/DummySection.jsx'
 
 const navigation = [ { name: 'Product', href: '/Product' }, 
-  { name: 'Features', href: '#' }, 
-  { name: 'Marketplace', href: '#' },
-   { name: 'Company', href: '#' }, ]
+  { name: 'About Us', href: '/AboutUs' }, 
+  { name: 'New Arrivals', href: '#' },
+   { name: 'Contact', href: '/ContactUs' }, ]
 
 export default function LandingPage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -20,13 +20,12 @@ export default function LandingPage() {
 
   return (
     <div className="bg-[#0B0B0B] text-white">
-      {/* ================= NAVBAR ================= */}
       <header className="fixed inset-x-0 top-0 z-50">
         <nav className="flex items-center justify-between px-6 py-4 lg:px-10 backdrop-blur-md bg-black/80">
           {/* Brand */}
           <div className="flex lg:flex-1">
             <a href="#" className="text-3xl font-extrabold bg-clip-text text-[#C9A24D]">
-              Store
+             ChicThreads
             </a>
           </div>
 
@@ -57,12 +56,12 @@ export default function LandingPage() {
 
           {/* CTA */}
           <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-            <a
-              href="#"
+            <Link
+              to="/login"
               className="rounded-full bg-[#C9A24D] px-8 py-2 text-sm font-semibold text-[#0B0B0B] hover:opacity-90 transition"
             >
               Login
-            </a>
+            </Link>
           </div>
         </nav>
 
@@ -113,13 +112,14 @@ export default function LandingPage() {
           <p className="mt-4 text-3xl md:text-4xl text-[#F5F1EB]/80">
             Luxury fashion made for every moment
           </p>
-          <button className="mt-8 px-12 py-4 bg-[#C9A24D] text-[#0B0B0B] font-semibold rounded-md hover:opacity-90 transition">
+          <Link
+            to="/Product"
+            className="mt-8 px-12 py-4 bg-[#C9A24D] text-[#0B0B0B] font-semibold rounded-md hover:opacity-90 transition">
             Shop Now
-          </button>
+          </Link>
         </div>
       </section>
 
-      {/* ================= MARQUE ================= */}
       <section className="bg-[#F5F1EB] text-[#0B0B0B]">
         <Marque />
       </section>

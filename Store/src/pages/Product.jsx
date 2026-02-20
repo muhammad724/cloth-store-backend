@@ -6,6 +6,7 @@ import { Dialog, DialogPanel } from "@headlessui/react";
 import { Menu, X } from "lucide-react";
 import { Link } from "react-router";
 import { useQuery } from "@tanstack/react-query";
+import { useNavigate } from "react-router";
 
 const Product = () => {
 
@@ -17,10 +18,11 @@ const Product = () => {
 
   const navigation = [
     { name: "Home", href: "/" },
-    { name: "Features", href: "#" },
-    { name: "Marketplace", href: "#" },
-    { name: "Company", href: "#" },
+    { name: 'About Us', href: '/AboutUs' }, 
+  { name: 'New Arrivals', href: '#' },
+   { name: 'Contact', href: '/ContactUs' },
   ];
+const navigate = useNavigate();
 
   const { data: products = [], isLoading, error } = useQuery({
     queryKey: ["products", selectedCategory],
@@ -41,7 +43,25 @@ const Product = () => {
   return (
 
     <div>
-    <header className="fixed inset-x-0 top-0 z-50"> <nav className="flex items-center justify-between px-6 py-4 lg:px-10 backdrop-blur-md bg-black/80"> {/* Brand */} <div className="flex lg:flex-1"> <a href="#" className="text-3xl font-extrabold bg-clip-text text-[#C9A24D]"> Store </a> </div> {/* Mobile menu button */} <div className="flex lg:hidden"> <button onClick={() => setMobileMenuOpen(true)} className="rounded-md p-2 text-gray-200 hover:bg-white/10" > <Menu className="size-6" /> </button> </div> <div className="hidden lg:flex lg:gap-x-10"> {navigation.map((item) => ( <a key={item.name} href={item.href} className="relative text-lg font-semibold text-gray-200 hover:text-[#C9A24D] transition after:absolute after:-bottom-1 after:left-0 after:h-[2px] after:w-0 after:bg-gradient-to-r after:from-[#C9A24D] after:to-[#C9A24D] hover:after:w-full after:transition-all" > {item.name} </a> ))} </div> {/* CTA */} <div className="hidden lg:flex lg:flex-1 lg:justify-end"> <a href="#" className="rounded-full bg-[#C9A24D] px-8 py-2 text-sm font-semibold text-[#0B0B0B] hover:opacity-90 transition" > Login </a> </div> </nav> <Dialog open={mobileMenuOpen} onClose={setMobileMenuOpen} className="lg:hidden"> <div className="fixed inset-0 bg-black/60" /> <DialogPanel className="fixed inset-y-0 right-0 w-full max-w-sm bg-[#0B0B0B] p-6"> <div className="flex items-center justify-between"> <span className="text-xl font-bold bg-gradient-to-r from-[#C9A24D] to-[#C9A24D] bg-clip-text text-transparent"> Store </span> <button onClick={() => setMobileMenuOpen(false)}> <X className="size-6 text-white" /> </button> </div> <div className="mt-8 space-y-4"> {navigation.map((item) => ( <a key={item.name} href={item.href} className="block text-lg font-semibold text-gray-200 hover:text-[#C9A24D]" > {item.name} </a> ))} </div> <div className="mt-8"> <a className="block rounded-lg bg-[#C9A24D] px-4 py-3 text-center font-semibold text-[#0B0B0B] hover:opacity-90"> Login </a> </div> </DialogPanel> </Dialog> </header>
+    <header className="fixed inset-x-0 top-0 z-50"> <nav className="flex items-center justify-between px-6 py-4 lg:px-10 backdrop-blur-md bg-black/80">
+     {/* Brand */} <div className="flex lg:flex-1">
+       <a href="#" className="text-3xl font-extrabold bg-clip-text text-[#C9A24D]"> ChicThreads</a> 
+       </div> {/* Mobile menu button */} <div className="flex lg:hidden">
+         <button onClick={() => setMobileMenuOpen(true)} className="rounded-md p-2 text-gray-200 hover:bg-white/10" > 
+          <Menu className="size-6" /> </button> </div> <div className="hidden lg:flex lg:gap-x-10"> 
+            {navigation.map((item) => ( <a key={item.name} href={item.href} className="relative text-lg font-semibold text-gray-200 hover:text-[#C9A24D] transition after:absolute after:-bottom-1 after:left-0 after:h-[2px] after:w-0 after:bg-gradient-to-r after:from-[#C9A24D] after:to-[#C9A24D] hover:after:w-full after:transition-all" >
+               {item.name} </a> ))} </div> {/* CTA */} <div className="hidden lg:flex lg:flex-1 lg:justify-end"> 
+                <a onClick={() => navigate("/Login")} className="rounded-full bg-[#C9A24D] px-8 py-2 text-sm font-semibold text-[#0B0B0B] hover:opacity-90 transition" > Login </a> </div>
+                 </nav> <Dialog open={mobileMenuOpen} onClose={setMobileMenuOpen} className="lg:hidden"> 
+                  <div className="fixed inset-0 bg-black/60" /> <DialogPanel className="fixed inset-y-0 right-0 w-full max-w-sm bg-[#0B0B0B] p-6">
+                     <div className="flex items-center justify-between"> 
+                      <span className="text-xl font-bold bg-gradient-to-r from-[#C9A24D] to-[#C9A24D] bg-clip-text text-transparent"> Store </span> 
+                      <button onClick={() => setMobileMenuOpen(false)}> <X className="size-6 text-white" /> </button> </div> 
+                      <div className="mt-8 space-y-4"> 
+                        {navigation.map((item) => ( <a key={item.name} href={item.href} className="block text-lg font-semibold text-gray-200 hover:text-[#C9A24D]" > 
+                          {item.name} </a> ))} </div> <div className="mt-8"> 
+                            <a onClick={() => navigate("/Login")} className="block rounded-lg bg-[#C9A24D] px-4 py-3 text-center font-semibold text-[#0B0B0B] hover:opacity-90"> Login </a>
+                       </div> </DialogPanel> </Dialog> </header>
 
 
 
