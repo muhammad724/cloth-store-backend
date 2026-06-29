@@ -25,7 +25,7 @@ const Register = () => {
 
   const registerUser = async (data) => {
     try {
-      const response = await axios.post('http://localhost:3000/users', data);
+      const response = await axios.post('https://store-backend-indol.vercel.app/users', data);
       console.log('User registered successfully:', response.data);
       alert('Registration successful! Please login.');
     } catch (error) {

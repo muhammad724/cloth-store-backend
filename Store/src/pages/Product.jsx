@@ -4,35 +4,33 @@ import axios from "axios";
 import useCartStore from "../context/CartStore";
 import { Dialog, DialogPanel } from "@headlessui/react";
 import { Menu, X } from "lucide-react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { useQuery } from "@tanstack/react-query";
-import { useNavigate } from "react-router";
 
 const Product = () => {
-
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("All");
 
   const cart = useCartStore((state) => state.cart);
   const addToCart = useCartStore((state) => state.addToCart);
+  const navigate = useNavigate();
 
   const navigation = [
     { name: "Home", href: "/" },
-    { name: 'About Us', href: '/AboutUs' }, 
-  { name: 'New Arrivals', href: '#' },
-   { name: 'Contact', href: '/ContactUs' },
+    { name: "About Us", href: "/AboutUs" },
+    { name: "New Arrivals", href: "#" },
+    { name: "Contact", href: "/ContactUs" },
   ];
-const navigate = useNavigate();
 
+  // Fetch products
   const { data: products = [], isLoading, error } = useQuery({
     queryKey: ["products", selectedCategory],
     queryFn: async () => {
       const url =
         selectedCategory === "All"
-          ? "http://localhost:3000/product"
-          : `http://localhost:3000/product?category=${selectedCategory}`;
-
-      const { data } = await axios.get(url);
+          ? "https://store-backend-indol.vercel.app/product"
+          : `https://store-backend-indol.vercel.app/product?category=${selectedCategory}`;
+      const { data } = await axios.get(url); // public route, no auth
       return data;
     },
   });
@@ -41,55 +39,123 @@ const navigate = useNavigate();
   if (error) return <h1>Error loading products</h1>;
 
   return (
-
     <div>
-    <header className="fixed inset-x-0 top-0 z-50"> <nav className="flex items-center justify-between px-6 py-4 lg:px-10 backdrop-blur-md bg-black/80">
-     {/* Brand */} <div className="flex lg:flex-1">
-       <a href="#" className="text-3xl font-extrabold bg-clip-text text-[#C9A24D]"> ChicThreads</a> 
-       </div> {/* Mobile menu button */} <div className="flex lg:hidden">
-         <button onClick={() => setMobileMenuOpen(true)} className="rounded-md p-2 text-gray-200 hover:bg-white/10" > 
-          <Menu className="size-6" /> </button> </div> <div className="hidden lg:flex lg:gap-x-10"> 
-            {navigation.map((item) => ( <a key={item.name} href={item.href} className="relative text-lg font-semibold text-gray-200 hover:text-[#C9A24D] transition after:absolute after:-bottom-1 after:left-0 after:h-[2px] after:w-0 after:bg-gradient-to-r after:from-[#C9A24D] after:to-[#C9A24D] hover:after:w-full after:transition-all" >
-               {item.name} </a> ))} </div> {/* CTA */} <div className="hidden lg:flex lg:flex-1 lg:justify-end"> 
-                <a onClick={() => navigate("/Login")} className="rounded-full bg-[#C9A24D] px-8 py-2 text-sm font-semibold text-[#0B0B0B] hover:opacity-90 transition" > Login </a> </div>
-                 </nav> <Dialog open={mobileMenuOpen} onClose={setMobileMenuOpen} className="lg:hidden"> 
-                  <div className="fixed inset-0 bg-black/60" /> <DialogPanel className="fixed inset-y-0 right-0 w-full max-w-sm bg-[#0B0B0B] p-6">
-                     <div className="flex items-center justify-between"> 
-                      <span className="text-xl font-bold bg-gradient-to-r from-[#C9A24D] to-[#C9A24D] bg-clip-text text-transparent"> Store </span> 
-                      <button onClick={() => setMobileMenuOpen(false)}> <X className="size-6 text-white" /> </button> </div> 
-                      <div className="mt-8 space-y-4"> 
-                        {navigation.map((item) => ( <a key={item.name} href={item.href} className="block text-lg font-semibold text-gray-200 hover:text-[#C9A24D]" > 
-                          {item.name} </a> ))} </div> <div className="mt-8"> 
-                            <a onClick={() => navigate("/Login")} className="block rounded-lg bg-[#C9A24D] px-4 py-3 text-center font-semibold text-[#0B0B0B] hover:opacity-90"> Login </a>
-                       </div> </DialogPanel> </Dialog> </header>
+      <header className="fixed inset-x-0 top-0 z-50">
+        <nav className="flex items-center justify-between px-6 py-4 lg:px-10 backdrop-blur-md bg-black/80">
+          {/* Brand */}
+          <div className="flex lg:flex-1">
+            <a
+              href="#"
+              className="text-3xl font-extrabold bg-clip-text text-[#C9A24D]"
+            >
+              ChicThreads
+            </a>
+          </div>
 
+          {/* Mobile menu button */}
+          <div className="flex lg:hidden">
+            <button
+              onClick={() => setMobileMenuOpen(true)}
+              className="rounded-md p-2 text-gray-200 hover:bg-white/10"
+            >
+              <Menu className="size-6" />
+            </button>
+          </div>
 
+          <div className="hidden lg:flex lg:gap-x-10">
+            {navigation.map((item) => (
+              <a
+                key={item.name}
+                href={item.href}
+                className="relative text-lg font-semibold text-gray-200 hover:text-[#C9A24D] transition after:absolute after:-bottom-1 after:left-0 after:h-[2px] after:w-0 after:bg-gradient-to-r after:from-[#C9A24D] after:to-[#C9A24D] hover:after:w-full after:transition-all"
+              >
+                {item.name}
+              </a>
+            ))}
+          </div>
 
+          {/* CTA */}
+          <div className="hidden lg:flex lg:flex-1 lg:justify-end">
+            <a
+              onClick={() => navigate("/Login")}
+              className="rounded-full bg-[#C9A24D] px-8 py-2 text-sm font-semibold text-[#0B0B0B] hover:opacity-90 transition"
+            >
+              Login
+            </a>
+          </div>
+        </nav>
+
+        <Dialog
+          open={mobileMenuOpen}
+          onClose={setMobileMenuOpen}
+          className="lg:hidden"
+        >
+          <div className="fixed inset-0 bg-black/60" />
+          <DialogPanel className="fixed inset-y-0 right-0 w-full max-w-sm bg-[#0B0B0B] p-6">
+            <div className="flex items-center justify-between">
+              <span className="text-xl font-bold bg-gradient-to-r from-[#C9A24D] to-[#C9A24D] bg-clip-text text-transparent">
+                Store
+              </span>
+              <button onClick={() => setMobileMenuOpen(false)}>
+                <X className="size-6 text-white" />
+              </button>
+            </div>
+            <div className="mt-8 space-y-4">
+              {navigation.map((item) => (
+                <a
+                  key={item.name}
+                  href={item.href}
+                  className="block text-lg font-semibold text-gray-200 hover:text-[#C9A24D]"
+                >
+                  {item.name}
+                </a>
+              ))}
+            </div>
+            <div className="mt-8">
+              <a
+                onClick={() => navigate("/Login")}
+                className="block rounded-lg bg-[#C9A24D] px-4 py-3 text-center font-semibold text-[#0B0B0B] hover:opacity-90"
+              >
+                Login
+              </a>
+            </div>
+          </DialogPanel>
+        </Dialog>
+      </header>
 
       <section className="relative w-full h-screen overflow-hidden">
-         <img src="https://images.unsplash.com/photo-1567401893414-76b7b1e5a7a5?auto=format&fit=crop&w=2400&q=100"
-          alt="Fashion Collection" className="absolute inset-0 w-full h-full object-cover" /> 
-          <div className="absolute inset-0 bg-black/50"></div> 
-          <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-6"> 
-            <h1 className="text-5xl md:text-6xl font-bold text-white mb-6"> Timeless Fashion </h1> 
-            <button className="px-8 py-3 bg-[#C9A24D] text-black font-semibold rounded-md hover:opacity-90 transition"> Shop Now </button>
-             </div> 
+        <img
+          src="https://images.unsplash.com/photo-1567401893414-76b7b1e5a7a5?auto=format&fit=crop&w=2400&q=100"
+          alt="Fashion Collection"
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-black/50"></div>
+        <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-6">
+          <h1 className="text-5xl md:text-6xl font-bold text-white mb-6">
+            Timeless Fashion
+          </h1>
+          <button className="px-8 py-3 bg-[#C9A24D] text-black font-semibold rounded-md hover:opacity-90 transition">
+            Shop Now
+          </button>
+        </div>
       </section>
 
       <div className="flex gap-4 mb-8 justify-center mt-24">
-        {["All", "tshirt", "shirt", "hoodie", "jeans", "jacket", "accessories"].map((cat) => (
-          <button
-            key={cat}
-            onClick={() => setSelectedCategory(cat)}
-            className={`px-4 py-2 rounded-full border ${
-              selectedCategory === cat
-                ? "bg-[#C9A24D] text-black"
-                : "border-[#C9A24D] text-black"
-            }`}
-          >
-            {cat}
-          </button>
-        ))}
+        {["All", "tshirt", "shirt", "hoodie", "jeans", "jacket", "accessories"].map(
+          (cat) => (
+            <button
+              key={cat}
+              onClick={() => setSelectedCategory(cat)}
+              className={`px-4 py-2 rounded-full border ${
+                selectedCategory === cat
+                  ? "bg-[#C9A24D] text-black"
+                  : "border-[#C9A24D] text-black"
+              }`}
+            >
+              {cat}
+            </button>
+          )
+        )}
       </div>
 
       {/* PRODUCTS GRID */}
@@ -139,7 +205,6 @@ const navigate = useNavigate();
           )}
         </Link>
       </div>
-
     </div>
   );
 };

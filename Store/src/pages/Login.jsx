@@ -17,7 +17,7 @@ export default function Login() {
 
     try {
       const { data } = await axios.post(
-        "http://localhost:3000/users/login",
+        "https://store-backend-indol.vercel.app/users/login",
         {
           email,
           password,
